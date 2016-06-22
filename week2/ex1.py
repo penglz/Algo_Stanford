@@ -6,47 +6,46 @@ def choose_pivot(iarray, lo, hi, method):
     if (method == 1):
         return lo 
 
-def partion(iarray, lo, hi, pivot, nswap):
+def partion(iarray, lo, hi, pivot):
     pv = iarray[pivot]
     if (pivot != lo):
         iarray[lo],iarray[pivot] = iarray[pivot],iarray[lo]
-        nswap += 1
     i = lo + 1 
     j = lo + 1
     while j < hi+1:
         if (iarray[j] < pv):
             if (j != i):
                 iarray[i],iarray[j] = iarray[j],iarray[i]
-                nswap += 1
             i += 1
         j += 1
     if (i-1) != lo :
         iarray[lo], iarray[i-1] = iarray[i-1], iarray[lo]
-        nswap += 1
-    return (i-1, nswap)
+    return i-1
             
 
 
-def myqsort(iarray, lo, hi, method, nswap):
-    if (len(iarray) == 1):
-        return nswap 
+def myqsort(iarray, lo, hi, method, ncomp):
+    if (lo == hi):
+        return ncomp 
     else:
+        ncomp = ncomp + (hi - lo)
         p = choose_pivot(iarray, lo, hi, method)
-        p, nswap = partion(iarray, lo, hi, p, nswap)
+        p = partion(iarray, lo, hi, p)
         if (p > lo):
-            nswap = myqsort(iarray, lo, p-1, method, nswap)
+            ncomp = myqsort(iarray, lo, p-1, method, ncomp)
         if (p < len(iarray)-1):
-            nswap = myqsort(iarray, p+1, hi, method, nswap)
-        return nswap
+            ncomp = myqsort(iarray, p+1, hi, method, ncomp)
+        return ncomp
 
 
 def main():
     with open('./array.txt', 'r') as f:
         iarray = map(int, f.readlines())
     print iarray
-    nswap = myqsort(iarray, 0, len(iarray)-1, 1, 0)
-    print iarray, nswap
+    ncomp = myqsort(iarray, 0, len(iarray)-1, 1, 0)
+    print iarray, ncomp
 
 
 if __name__ == "__main__":
     main()
+
