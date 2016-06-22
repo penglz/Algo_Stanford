@@ -33,7 +33,7 @@ def myqsort(iarray, lo, hi, method, ncomp):
         p = partion(iarray, lo, hi, p)
         if (p > lo):
             ncomp = myqsort(iarray, lo, p-1, method, ncomp)
-        if (p < len(iarray)-1):
+        if (p < hi-1):
             ncomp = myqsort(iarray, p+1, hi, method, ncomp)
         return ncomp
 
@@ -41,11 +41,15 @@ def myqsort(iarray, lo, hi, method, ncomp):
 def main():
     with open('./array.txt', 'r') as f:
         iarray = map(int, f.readlines())
-    print iarray
+    iarray_ans = sorted(iarray)
     ncomp = myqsort(iarray, 0, len(iarray)-1, 1, 0)
-    print iarray, ncomp
+    if iarray_ans == iarray:
+        print ncomp
+    else:
+        print 'Wrong Answer'
 
 
 if __name__ == "__main__":
     main()
+
 
